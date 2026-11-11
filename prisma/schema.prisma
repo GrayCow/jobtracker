@@ -1,0 +1,142 @@
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Stage {
+  APPLIED
+  HEARD_BACK
+  INTERVIEW
+  OFFER
+  REJECTED
+}
+
+enum EmailDirection {
+  INBOUND
+  OUTBOUND
+}
+
+enum EmailCategory {
+  APPLICATION_CONFIRMATION
+  RESPONSE_GENERIC
+  INTERVIEW_INVITE
+  OFFER
+  REJECTION
+  REPLY
+  UNKNOWN
+}
+
+enum ClassificationSource {
+  RULE
+  LLM
+}
+
+enum RecruiterInfoSource {
+  MANUAL
+  ENRICHED
+}
+
+model Application {
+  id     String @id @default(cuid())
+  company  String
+  position String
+
+  companyDomain String?
+  stage         Stage   @default(APPLIED)
+
+  dateApplied        DateTime?
+  firstSeenAt        DateTime @default(now())
+  lastStatusChangeAt DateTime @default(now())
+  lastEmailAt        DateTime?
+
+  companyLinkedInUrl   String?
+  recruiterName        String?
+  recruiterLinkedInUrl String?
+  recruiterEmail       String?
+  recruiterInfoSource  RecruiterInfoSource @default(MANUAL)
+  connectionNotes      String?
+
+  gmailThreadId String? @unique
+
+  isRejected Boolean   @default(false)
+  rejectedAt DateTime?
+
+  emails       EmailMessage[]
+  statusEvents StatusEvent[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([stage])
+  @@index([lastStatusChangeAt])
+  @@index([companyDomain])
+}
+
+model EmailMessage {
+  id             String @id @default(cuid())
+  gmailMessageId String @unique
+  gmailThreadId  String
+
+  applicationId String?
+  application   Application? @relation(fields: [applicationId], references: [id])
+
+  fromAddress String
+  fromDomain  String
+  toAddress   String?
+  subject     String
+  snippet     String?
+  bodyText    String?
+
+  internalDate DateTime
+  direction    EmailDirection @default(INBOUND)
+  isReply      Boolean        @default(false)
+
+  category                 EmailCategory        @default(UNKNOWN)
+  classificationSource     ClassificationSource @default(RULE)
+  classificationConfidence Float?
+  matchedSignals           String?
+
+  parsedSenderName  String?
+  parsedSenderTitle String?
+
+  createdAt DateTime @default(now())
+
+  @@index([applicationId])
+  @@index([gmailThreadId])
+  @@index([category])
+}
+
+model StatusEvent {
+  id            String      @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id])
+
+  fromStage          Stage?
+  toStage             Stage
+  occurredAt          DateTime @default(now())
+  triggeredByEmailId  String?
+
+  @@index([applicationId])
+  @@index([occurredAt])
+}
+
+model SyncState {
+  id             String    @id @default("singleton")
+  lastHistoryId  String?
+  lastSyncAt     DateTime?
+  lastFullSyncAt DateTime?
+  status         String?
+  lastError      String?
+}
+
+model OAuthToken {
+  id           String   @id @default("singleton")
+  accessToken  String
+  refreshToken String
+  expiryDate   DateTime
+  scope        String
+  updatedAt    DateTime @updatedAt
+}
