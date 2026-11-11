@@ -40,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <nav className="flex gap-4 text-sm" style={{ color: "var(--text-secondary)" }}>
             <Link href="/dashboard">Dashboard</Link>
             <Link href="/applications">Applications</Link>
+            <Link href="/setup">Sync setup</Link>
           </nav>
         </header>
         <main className="flex-1">{children}</main>

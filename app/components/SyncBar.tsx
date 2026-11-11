@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
+import Link from "next/link";
 import { triggerSync } from "@/app/actions";
 
 type SyncStatusResponse = {
   connected: boolean;
+  syncMethod: "GOOGLE_OAUTH" | "CLAUDE_ASSISTED" | null;
   state: { lastSyncAt: string | null; status: string | null; lastError: string | null } | null;
 };
 
@@ -44,6 +46,39 @@ export function SyncBar() {
   };
 
   if (!status) return null;
+
+  if (!status.syncMethod) {
+    return (
+      <div
+        className="flex items-center justify-between rounded-lg p-3 text-sm"
+        style={{ background: "var(--surface-1)", border: "1px solid var(--border-hairline)" }}
+      >
+        <span style={{ color: "var(--text-secondary)" }}>You haven&apos;t chosen a Gmail sync method yet.</span>
+        <Link href="/setup" className="font-medium" style={{ color: "var(--series-applied)" }}>
+          Set up sync
+        </Link>
+      </div>
+    );
+  }
+
+  if (status.syncMethod === "CLAUDE_ASSISTED") {
+    const lastSyncAt = status.state?.lastSyncAt;
+    return (
+      <div
+        className="flex items-center justify-between rounded-lg p-3 text-sm"
+        style={{ background: "var(--surface-1)", border: "1px solid var(--border-hairline)" }}
+      >
+        <span style={{ color: "var(--text-secondary)" }}>
+          {lastSyncAt
+            ? `Claude-assisted sync — last synced ${new Date(lastSyncAt).toLocaleString()}`
+            : "Claude-assisted sync — open a Claude Code session in this project and ask it to sync your job emails."}
+        </span>
+        <Link href="/setup" className="font-medium" style={{ color: "var(--series-applied)" }}>
+          Switch method
+        </Link>
+      </div>
+    );
+  }
 
   if (!status.connected) {
     return (

@@ -2,13 +2,15 @@ import { NextResponse } from "next/server";
 import { runSync } from "@/lib/gmail/sync";
 import { db } from "@/lib/db";
 import { isGmailConnected } from "@/lib/gmail/oauth";
+import { getSyncMethod } from "@/lib/settings";
 
 export async function GET() {
-  const [state, connected] = await Promise.all([
+  const [state, connected, syncMethod] = await Promise.all([
     db.syncState.findUnique({ where: { id: "singleton" } }),
     isGmailConnected(),
+    getSyncMethod(),
   ]);
-  return NextResponse.json({ state, connected });
+  return NextResponse.json({ state, connected, syncMethod });
 }
 
 export async function POST() {

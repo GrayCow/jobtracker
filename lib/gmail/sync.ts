@@ -16,7 +16,7 @@ function buildFullScanQuery(): string {
   return `(${fromClause}) OR (${subjectClause})`;
 }
 
-function isLikelyJobRelated(fromDomain: string, subject: string): boolean {
+export function isLikelyJobRelated(fromDomain: string, subject: string): boolean {
   const lowerSubject = subject.toLowerCase();
   if (ATS_DOMAINS.some((d) => fromDomain.endsWith(d))) return true;
   return SUBJECT_KEYWORDS.some((k) => lowerSubject.includes(k));

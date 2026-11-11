@@ -11,9 +11,8 @@ The app, dashboard, list view, and detail/edit view are fully built and working 
 **seed data** (17 realistic sample applications spanning every stage). Everything described
 below under "Running it" works right now with no further setup.
 
-**Gmail sync is built but not yet connected to a real inbox** — that needs a one-time Google
-Cloud setup step that only you can do (it requires your own Google login/consent screen).
-See "Connecting Gmail" below — it takes about 10 minutes.
+**Gmail sync is built but not yet connected to a real inbox.** Visit `/setup` (or the "Sync
+setup" link in the nav) to pick how you want to sync — see "Connecting Gmail" below.
 
 ## Running it
 
@@ -42,7 +41,21 @@ npm test             # node --test over lib/**/*.test.ts
 npm run build        # production build
 ```
 
-## Connecting Gmail (one-time, ~10 minutes)
+## Connecting Gmail
+
+Visit `/setup` to choose between two sync methods. Each shows its pros/cons in-app; the short
+version:
+
+- **Google OAuth (recommended)** — fully automatic, your email never passes through any AI
+  model, but needs a one-time ~10 minute Google Cloud setup (below).
+- **Claude-assisted** — skips the Google Cloud setup, but only syncs when you ask a Claude Code
+  session to do it, and your email content is read into that conversation.
+
+Your choice is stored in `SyncState.syncMethod`; both paths write into the same
+`Application`/`EmailMessage` tables through the same classify → match → ingest pipeline
+(`lib/gmail/ingestRaw.ts`), so the dashboard/list/detail views behave identically either way.
+
+### Google OAuth setup (one-time, ~10 minutes)
 
 The app needs its own Google Cloud OAuth client — it does **not** reuse any other Google
 sign-in. Read-only Gmail access only (`gmail.readonly` scope); it never sends, labels, or
@@ -78,6 +91,21 @@ incremental and only fetch what's new.
 If you ever see a "refresh token revoked" type error: go to
 [myaccount.google.com/permissions](https://myaccount.google.com/permissions), remove this
 app's access, then click **Connect Gmail** again so Google issues a fresh token.
+
+### Claude-assisted sync (no Google Cloud setup)
+
+If you picked this method on `/setup`: open a Claude Code session in this project with Gmail
+connected, and ask it to sync your job-application emails. Claude will search/read the relevant
+messages with its own Gmail tools, write them to a JSON file matching `RawEmailInput[]`
+(`lib/gmail/ingestRaw.ts`), and run:
+
+```bash
+node scripts/claude-ingest.ts <path-to-messages.json>
+```
+
+That script runs every message through the exact same classifier/matcher/stage-derivation
+pipeline as the Google-OAuth path, so results are identical regardless of which method produced
+them. You can switch methods at any time from `/setup` without losing anything already synced.
 
 ## What's manual by design
 

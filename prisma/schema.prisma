@@ -39,6 +39,11 @@ enum RecruiterInfoSource {
   ENRICHED
 }
 
+enum SyncMethod {
+  GOOGLE_OAUTH
+  CLAUDE_ASSISTED
+}
+
 model Application {
   id     String @id @default(cuid())
   company  String
@@ -124,12 +129,13 @@ model StatusEvent {
 }
 
 model SyncState {
-  id             String    @id @default("singleton")
+  id             String      @id @default("singleton")
   lastHistoryId  String?
   lastSyncAt     DateTime?
   lastFullSyncAt DateTime?
   status         String?
   lastError      String?
+  syncMethod     SyncMethod?
 }
 
 model OAuthToken {
