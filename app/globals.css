@@ -11,19 +11,24 @@
   --border-hairline: rgba(11, 11, 11, 0.1);
   --success-text: #006300;
 
-  /* Categorical stage colors: fixed regardless of accent theme, so a stage
-     always means the same color everywhere (dashboard tiles, funnel, badges). */
-  --series-applied: #2a78d6;
-  --series-heard-back: #eb6834;
-  --series-interview: #1baf7a;
-  --series-offer: #eda100;
-  --series-rejected: #e87ba4;
+  /* Rejected is a reserved "exited the pipeline" status color — fixed across
+     every theme, since it's an outcome, not a step along the sequence below. */
+  --series-rejected: #8a332c;
 
-  /* Mood tokens: page tint + UI-chrome accent (buttons, links, selection).
-     Overridden per [data-accent] below. Default = Tan, the neutral theme. */
+  /* The other four stages are a sequential ramp (light -> dark) of whichever
+     accent theme is active: Applied is the lightest step, Offer the darkest,
+     since the stages are literally an ordered progression. Values below are
+     the Tan default; each [data-accent] block overrides all four + the mood
+     tokens together. */
+  --series-applied: #b2946a;
+  --series-heard-back: #93774f;
+  --series-interview: #77603c;
+  --series-offer: #5c492d;
+
+  /* Mood tokens: page tint + UI-chrome accent (buttons, links, selection). */
   --background: #faf6ef;
   --surface-1: #ffffff;
-  --accent: #a8794a;
+  --accent: #77603c;
   --accent-soft: #f0e3d1;
   --accent-contrast: #ffffff;
 }
@@ -31,7 +36,11 @@
 [data-accent="tan"] {
   --background: #faf6ef;
   --surface-1: #ffffff;
-  --accent: #a8794a;
+  --series-applied: #b2946a;
+  --series-heard-back: #93774f;
+  --series-interview: #77603c;
+  --series-offer: #5c492d;
+  --accent: #77603c;
   --accent-soft: #f0e3d1;
   --accent-contrast: #ffffff;
 }
@@ -39,79 +48,119 @@
 [data-accent="red"] {
   --background: #fdf5f4;
   --surface-1: #ffffff;
-  --accent: #d1453c;
-  --accent-soft: #fbe3e1;
+  --series-applied: #c2635c;
+  --series-heard-back: #a8453d;
+  --series-interview: #8a332c;
+  --series-offer: #6b2621;
+  --accent: #8a332c;
+  --accent-soft: #f3dcd9;
   --accent-contrast: #ffffff;
 }
 
 [data-accent="orange"] {
   --background: #fdf6ef;
   --surface-1: #ffffff;
-  --accent: #dd7f2c;
-  --accent-soft: #f9e6d2;
+  --series-applied: #c08248;
+  --series-heard-back: #a3662c;
+  --series-interview: #82501f;
+  --series-offer: #633b16;
+  --accent: #82501f;
+  --accent-soft: #f1e0cc;
   --accent-contrast: #ffffff;
 }
 
 [data-accent="yellow"] {
   --background: #fdfaef;
   --surface-1: #ffffff;
-  --accent: #b08f0b;
-  --accent-soft: #f6ecc9;
+  --series-applied: #ab8d3f;
+  --series-heard-back: #8f722a;
+  --series-interview: #725a1d;
+  --series-offer: #564414;
+  --accent: #725a1d;
+  --accent-soft: #efe6c4;
   --accent-contrast: #ffffff;
 }
 
 [data-accent="blue"] {
   --background: #f2f7fd;
   --surface-1: #ffffff;
-  --accent: #2a78d6;
-  --accent-soft: #dcebfa;
+  --series-applied: #5a85b8;
+  --series-heard-back: #3f6a9c;
+  --series-interview: #2d5280;
+  --series-offer: #1f3c60;
+  --accent: #2d5280;
+  --accent-soft: #d9e4f0;
   --accent-contrast: #ffffff;
 }
 
 [data-accent="teal"] {
   --background: #eef9f7;
   --surface-1: #ffffff;
-  --accent: #1f9c8f;
-  --accent-soft: #d6f0ec;
+  --series-applied: #4b9188;
+  --series-heard-back: #357770;
+  --series-interview: #265d57;
+  --series-offer: #1a443f;
+  --accent: #265d57;
+  --accent-soft: #d7ece8;
   --accent-contrast: #ffffff;
 }
 
 [data-accent="green"] {
   --background: #f0f9f1;
   --surface-1: #ffffff;
-  --accent: #3a9950;
-  --accent-soft: #ddf0df;
+  --series-applied: #5c9a66;
+  --series-heard-back: #437d4c;
+  --series-interview: #306238;
+  --series-offer: #214a28;
+  --accent: #306238;
+  --accent-soft: #ddeee0;
   --accent-contrast: #ffffff;
 }
 
 [data-accent="purple"] {
   --background: #f6f2fb;
   --surface-1: #ffffff;
-  --accent: #8456c9;
-  --accent-soft: #e9ddf7;
+  --series-applied: #8a6bb3;
+  --series-heard-back: #704f99;
+  --series-interview: #583a7c;
+  --series-offer: #422b5e;
+  --accent: #583a7c;
+  --accent-soft: #e6ddf2;
   --accent-contrast: #ffffff;
 }
 
 [data-accent="pink"] {
   --background: #fdf2f6;
   --surface-1: #ffffff;
-  --accent: #d6568f;
-  --accent-soft: #fbdfe9;
+  --series-applied: #c06688;
+  --series-heard-back: #a3486c;
+  --series-interview: #823454;
+  --series-offer: #63263f;
+  --accent: #823454;
+  --accent-soft: #f2dce5;
   --accent-contrast: #ffffff;
 }
 
 [data-accent="grayscale"] {
   --background: #f5f5f4;
   --surface-1: #ffffff;
-  --accent: #65645f;
-  --accent-soft: #e4e3df;
+  --series-applied: #87867f;
+  --series-heard-back: #6b6a64;
+  --series-interview: #52514c;
+  --series-offer: #3b3a36;
+  --accent: #52514c;
+  --accent-soft: #e2e1dd;
   --accent-contrast: #ffffff;
 }
 
 [data-accent="black"] {
   --background: #f7f7f7;
   --surface-1: #ffffff;
-  --accent: #141414;
+  --series-applied: #6b6b6b;
+  --series-heard-back: #4a4a4a;
+  --series-interview: #2e2e2e;
+  --series-offer: #161616;
+  --accent: #2e2e2e;
   --accent-soft: #e5e5e5;
   --accent-contrast: #ffffff;
 }
