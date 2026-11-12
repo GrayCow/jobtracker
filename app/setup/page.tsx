@@ -61,7 +61,7 @@ export default async function SetupPage() {
             <div
               className="rounded-lg p-4 flex flex-col gap-3 h-full"
               style={{
-                border: `1px solid ${current === opt.method ? "var(--series-applied)" : "var(--border-hairline)"}`,
+                border: `1px solid ${current === opt.method ? "var(--accent)" : "var(--border-hairline)"}`,
                 background: "var(--surface-1)",
               }}
             >
@@ -70,7 +70,7 @@ export default async function SetupPage() {
                 {opt.recommended && (
                   <span
                     className="text-xs rounded px-2 py-0.5 font-medium"
-                    style={{ background: "var(--series-applied)", color: "#fff" }}
+                    style={{ background: "var(--accent)", color: "var(--accent-contrast)" }}
                   >
                     Recommended
                   </span>
@@ -103,9 +103,9 @@ export default async function SetupPage() {
                 type="submit"
                 className="self-start rounded px-4 py-2 text-sm font-medium mt-auto"
                 style={{
-                  background: current === opt.method ? "var(--surface-1)" : "var(--series-applied)",
-                  color: current === opt.method ? "var(--text-primary)" : "#fff",
-                  border: "1px solid var(--series-applied)",
+                  background: current === opt.method ? "var(--surface-1)" : "var(--accent)",
+                  color: current === opt.method ? "var(--text-primary)" : "var(--accent-contrast)",
+                  border: "1px solid var(--accent)",
                 }}
               >
                 {current === opt.method ? "Currently selected" : "Choose this"}

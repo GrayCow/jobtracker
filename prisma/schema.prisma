@@ -44,6 +44,25 @@ enum SyncMethod {
   CLAUDE_ASSISTED
 }
 
+enum AccentTheme {
+  TAN
+  RED
+  ORANGE
+  YELLOW
+  BLUE
+  TEAL
+  GREEN
+  PURPLE
+  PINK
+  GRAYSCALE
+  BLACK
+}
+
+model AppSettings {
+  id          String      @id @default("singleton")
+  accentTheme AccentTheme @default(TAN)
+}
+
 model Application {
   id     String @id @default(cuid())
   company  String

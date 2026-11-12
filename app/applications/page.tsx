@@ -89,7 +89,7 @@ export default async function ApplicationsPage({
         <button
           type="submit"
           className="text-sm rounded px-3 py-1.5"
-          style={{ background: "var(--series-applied)", color: "#fff" }}
+          style={{ background: "var(--accent)", color: "var(--accent-contrast)" }}
         >
           Filter
         </button>
@@ -140,7 +140,10 @@ export default async function ApplicationsPage({
               <th className="text-left px-3 py-2">Recruiter</th>
               <th className="text-left px-3 py-2">Notes</th>
               <th className="text-left px-3 py-2">Replies</th>
-              <th className="text-left px-3 py-2">
+              <th
+                className="text-left px-3 py-2"
+                title="Time since this application's stage last changed (e.g. Applied → Heard back) — not just the most recent email"
+              >
                 <Link href={buildHref({ sort: "lastStatusChangeAt", dir: sortDir === "asc" ? "desc" : "asc" })}>
                   Last activity
                 </Link>
@@ -170,7 +173,7 @@ export default async function ApplicationsPage({
                 </td>
                 <td className="px-3 py-2">
                   <span
-                    className="rounded px-2 py-0.5 text-xs font-medium"
+                    className="inline-block whitespace-nowrap rounded px-2 py-0.5 text-xs font-medium"
                     style={{ background: STAGE_COLOR_VARS[app.stage], color: "#fff" }}
                   >
                     {STAGE_LABELS[app.stage]}

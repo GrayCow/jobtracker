@@ -32,15 +32,17 @@ export default async function DashboardPage() {
     <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col gap-8">
       <SyncBar />
 
-      <section className="flex flex-col gap-2">
-        <span className="text-sm" style={{ color: "var(--text-secondary)" }}>
-          New this week
-        </span>
-        <span className="font-semibold" style={{ fontSize: 48, color: "var(--text-primary)" }}>
-          {stats.newThisWeekCount}
-        </span>
+      <section className="flex flex-wrap items-start gap-6">
+        <div className="flex flex-col gap-2">
+          <span className="text-sm" style={{ color: "var(--text-secondary)" }}>
+            New this week
+          </span>
+          <span className="font-semibold" style={{ fontSize: 48, color: "var(--text-primary)" }}>
+            {stats.newThisWeekCount}
+          </span>
+        </div>
         {stats.newThisWeekPreview.length > 0 && (
-          <ul className="flex flex-col gap-1 mt-2 text-sm">
+          <ul className="flex flex-col gap-1 text-sm pt-6">
             {stats.newThisWeekPreview.map((a) => (
               <li key={a.id} className="flex items-center gap-2">
                 <span
@@ -91,9 +93,14 @@ export default async function DashboardPage() {
         className="rounded-lg p-4"
         style={{ background: "var(--surface-1)", border: "1px solid var(--border-hairline)" }}
       >
-        <h2 className="text-sm mb-4" style={{ color: "var(--text-secondary)" }}>
+        <h2 className="text-sm" style={{ color: "var(--text-secondary)" }}>
           Funnel
         </h2>
+        <p className="text-xs mb-4" style={{ color: "var(--text-muted)" }}>
+          How many open applications currently sit at each stage, Applied → Heard back →
+          Interview → Offer. Rejected is an exit outcome, not a funnel step, so it&apos;s tracked
+          separately in the stat tiles above rather than narrowing this bar chart.
+        </p>
         <FunnelBars
           funnel={stats.funnelOrdered}
           colorByStage={{

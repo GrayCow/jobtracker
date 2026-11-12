@@ -5,8 +5,8 @@ import { redirect } from "next/navigation";
 import { updateApplication as updateApplicationInDb } from "@/lib/applications/service";
 import { runSync } from "@/lib/gmail/sync";
 import { isGmailConnected } from "@/lib/gmail/oauth";
-import { setSyncMethod } from "@/lib/settings";
-import type { SyncMethod } from "@prisma/client";
+import { setSyncMethod, setAccentTheme } from "@/lib/settings";
+import type { SyncMethod, AccentTheme } from "@prisma/client";
 
 export async function updateApplication(id: string, formData: FormData) {
   await updateApplicationInDb(id, {
@@ -25,6 +25,11 @@ export async function chooseSyncMethod(method: SyncMethod) {
   await setSyncMethod(method);
   revalidatePath("/dashboard");
   redirect("/dashboard");
+}
+
+export async function setTheme(theme: AccentTheme) {
+  await setAccentTheme(theme);
+  revalidatePath("/", "layout");
 }
 
 export async function triggerSync() {

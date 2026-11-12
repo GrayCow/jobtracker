@@ -58,7 +58,7 @@ export default async function ApplicationDetailPage({ params }: { params: Promis
         <button
           type="submit"
           className="self-start rounded px-4 py-2 text-sm font-medium"
-          style={{ background: "var(--series-applied)", color: "#fff" }}
+          style={{ background: "var(--accent)", color: "var(--accent-contrast)" }}
         >
           Save
         </button>

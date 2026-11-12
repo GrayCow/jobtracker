@@ -54,7 +54,7 @@ export function SyncBar() {
         style={{ background: "var(--surface-1)", border: "1px solid var(--border-hairline)" }}
       >
         <span style={{ color: "var(--text-secondary)" }}>You haven&apos;t chosen a Gmail sync method yet.</span>
-        <Link href="/setup" className="font-medium" style={{ color: "var(--series-applied)" }}>
+        <Link href="/setup" className="font-medium" style={{ color: "var(--accent)" }}>
           Set up sync
         </Link>
       </div>
@@ -73,7 +73,7 @@ export function SyncBar() {
             ? `Claude-assisted sync — last synced ${new Date(lastSyncAt).toLocaleString()}`
             : "Claude-assisted sync — open a Claude Code session in this project and ask it to sync your job emails."}
         </span>
-        <Link href="/setup" className="font-medium" style={{ color: "var(--series-applied)" }}>
+        <Link href="/setup" className="font-medium" style={{ color: "var(--accent)" }}>
           Switch method
         </Link>
       </div>
@@ -87,7 +87,7 @@ export function SyncBar() {
         style={{ background: "var(--surface-1)", border: "1px solid var(--border-hairline)" }}
       >
         <span style={{ color: "var(--text-secondary)" }}>No Gmail account connected yet.</span>
-        <a href="/api/auth/google" className="font-medium" style={{ color: "var(--series-applied)" }}>
+        <a href="/api/auth/google" className="font-medium" style={{ color: "var(--accent)" }}>
           Connect Gmail
         </a>
       </div>
@@ -108,7 +108,7 @@ export function SyncBar() {
         onClick={handleSync}
         disabled={isPending}
         className="font-medium rounded px-3 py-1"
-        style={{ background: "var(--series-applied)", color: "#fff", opacity: isPending ? 0.6 : 1 }}
+        style={{ background: "var(--accent)", color: "var(--accent-contrast)", opacity: isPending ? 0.6 : 1 }}
       >
         {isPending ? "Syncing…" : "Sync now"}
       </button>

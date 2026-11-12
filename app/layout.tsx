@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { connection } from "next/server";
 import Link from "next/link";
 import "./globals.css";
+import { getAccentTheme } from "@/lib/settings";
+import { ThemePicker } from "@/app/components/ThemePicker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,10 +26,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export const instant = false;
+
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  await connection();
+  const theme = await getAccentTheme();
+
   return (
     <html
       lang="en"
+      data-theme="light"
+      data-accent={theme.toLowerCase()}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
@@ -42,6 +52,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Link href="/applications">Applications</Link>
             <Link href="/setup">Sync setup</Link>
           </nav>
+          <div className="ml-auto">
+            <ThemePicker current={theme} />
+          </div>
         </header>
         <main className="flex-1">{children}</main>
       </body>
